@@ -1,0 +1,3 @@
+[submodule "Visualization/threejs-dem-visualizer"]
+	path = Visualization/threejs-dem-visualizer
+	url = https://github.com/zhunor/threejs-dem-visualizer.git

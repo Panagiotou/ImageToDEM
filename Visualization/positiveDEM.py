@@ -6,6 +6,8 @@ DEM = 'sample'
 import csv
 import os
 
+JPG = "agri-small-autumn"
+TIF = "agri-small-dem"
 filename = "sample/" + DEM + '.csv'
 newfilename = DEM + 'pos.csv'
 
@@ -16,6 +18,6 @@ with open(filename, 'r') as inp, open(newfilename, 'w') as out:
         if(float(row[2]) > 0):
             writer.writerow(row)
 
-os.system("gdal_translate " + newfilename + " " + outdir + "/" + DEM + '.tif')
-os.system("cp sample/sample.jpg " + outdir + "/" + DEM + '.jpg')
+os.system("gdal_translate " + newfilename + " " + outdir + "/" + TIF + '.tif')
+os.system("cp sample/sample.jpg " + outdir + "/" + JPG + '.jpg')
 os.remove(newfilename)
