@@ -1,3 +1,6 @@
 .env
 Visualization/sample/sample.csv
 Visualization/sample/sample.tif
+Visualization/sample/sample.jpg
+Visualization/threejs-dem-visualizer/src/textures/sample.jpg
+Visualization/threejs-dem-visualizer/src/textures/sample.tif

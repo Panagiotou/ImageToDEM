@@ -1,6 +1,7 @@
 """
     Gets the corresponding rgb image to a input DEM file, using earth engine data.
-    Also generates a csv file from the DEM file, using qgis's gdal2xyz function.
+    Also generates a csv and tif file from the DEM file, using qgis's gdal2xyz
+    and gdal_translate function.
 """
 outdir = "sample"
 DEM = 'sample'
@@ -114,8 +115,11 @@ for f in glob.glob(outdir + "/*.tif"):
 
 rgb = Image.merge("RGB",(red,green,blue))
 rgb.save(outdir + "/" + DEM + '.tif')
+rgb.save(outdir + "/" + DEM + '.jpg')
 
 os.system("gdal2xyz.py -band 1 -csv " + outdir + "/" + DEM + ".dem " + outdir + "/" + DEM + ".csv")
+
+os.system("gdal_translate -of GTiff " + outdir + "/" + DEM + ".dem " + outdir + "/" + DEM + ".tif")
 
 for f in glob.glob(outdir + "/*.xml"):
     os.remove(f)
