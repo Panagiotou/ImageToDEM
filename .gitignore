@@ -2,5 +2,27 @@
 Visualization/sample/sample.csv
 Visualization/sample/sample.tif
 Visualization/sample/sample.jpg
-Visualization/threejs-dem-visualizer/src/textures/agri-small-autumn.jpg
-Visualization/threejs-dem-visualizer/src/textures/agri-small-dem.tif
+
+
+Visualization/threejs-dem-visualizer-master/node_modules/
+
+
+# webpack bundles
+Visualization/threejs-dem-visualizer-master/dist/
+Visualization/threejs-dem-visualizer-master/build/
+
+# unignore the favicon
+!/build/favicon.ico
+
+
+# logs
+Visualization/threejs-dem-visualizer-master/*.log
+Visualization/threejs-dem-visualizer-master/*.lock
+Visualization/threejs-dem-visualizer-master/package-lock.json
+
+# linters
+Visualization/threejs-dem-visualizer-master/eslintrc.json
+Visualization/threejs-dem-visualizer-master/sass-lint.yml
+
+# aux files
+Visualization/threejs-dem-visualizer-master/src/textures/**.xml
