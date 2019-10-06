@@ -25,4 +25,4 @@ Visualization/threejs-dem-visualizer-master/eslintrc.json
 Visualization/threejs-dem-visualizer-master/sass-lint.yml
 
 # aux files
-Visualization/threejs-dem-visualizer-master/src/textures/**.xml
+Visualization/threejs-dem-visualizer-master/src/textures/

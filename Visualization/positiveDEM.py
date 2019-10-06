@@ -1,7 +1,7 @@
 """
     Removes negative elevations from csv-DEM file.
 """
-outdir = "threejs-dem-visualizer/src/textures"
+outdir = "threejs-dem-visualizer-master/src/textures"
 DEM = 'sample'
 import csv
 import os

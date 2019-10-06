@@ -88,7 +88,7 @@ class Application {
     const near = 0.1;
     const far = 10000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    this.camera.position.set(1000, 1000, 1000);
+    this.camera.position.set(500, 500, 500);
     this.camera.lookAt(this.scene.position);
   }
 
@@ -115,9 +115,9 @@ class Application {
         width: tifImage.getWidth(),
         height: tifImage.getHeight()
       };
-      
 
-      /* 
+
+      /*
       The third and fourth parameter are image segments and we are subtracting one from each,
        otherwise our 3D model goes crazy.
        https://github.com/mrdoob/three.js/blob/master/src/geometries/PlaneGeometry.js#L57
@@ -166,14 +166,14 @@ class Application {
 
   setupHelpers() {
     const gridHelper = new THREE.GridHelper(1000, 40);
-    this.scene.add(gridHelper);
+    //this.scene.add(gridHelper);
 
     // const dirLightHelper = new THREE.DirectionalLightHelper(this.light, 10);
     // this.scene.add(dirLightHelper);
 
     console.log("The X axis is red. The Y axis is green. The Z axis is blue.");
     const axesHelper = new THREE.AxesHelper(500);
-    this.scene.add(axesHelper);
+    //this.scene.add(axesHelper);
   }
 }
 

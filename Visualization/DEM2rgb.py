@@ -3,12 +3,27 @@
     Also generates a csv and tif file from the DEM file, using qgis's gdal2xyz
     and gdal_translate function.
 """
-outdir = "sample"
-DEM = 'sample'
-SATELLITE_SR = 'LANDSAT/LC08/C01/T1_SR'
+import os, sys
+
+DEM = sys.argv[1]
+tempdir = "tempdir"
+os.system("mkdir " + tempdir)
+if(os.path.isfile(tempdir + "/" + "temp.tif")):
+    os.remove(tempdir + "/" + "temp.tif")
+
+os.system("gdalwarp -ot Float32 -q " + DEM + " " + tempdir + "/" + "temp.tif")
+DEM = "temp"
+
+outdir = tempdir
+SATELLITE_SR = "COPERNICUS/S2_SR"
+SCALE = 50
+PERCENTILE_SCALE = 50  # Resolution in meters to compute the percentile at
+
+if(len(sys.argv) > 2):
+    SCALE = int(sys.argv[2])
+    PERCENTILE_SCALE = int(sys.argv[2])
 
 import ee
-import os
 import time
 import requests
 import rasterio
@@ -22,7 +37,7 @@ import zipfile
 import glob, os
 from PIL import Image
 
-with rasterio.open(outdir + "/" + DEM + ".dem") as dataset:
+with rasterio.open(outdir + "/" + DEM + ".tif") as dataset:
 
     # Read the dataset's valid data mask as a ndarray.
     mask = dataset.dataset_mask()
@@ -66,9 +81,9 @@ def mask_l8_sr(image):
 region = '[[{}, {}], [{}, {}], [{}, {}], [{}, {}]]'.format(Xmin, Ymax, Xmax, Ymax, Xmax, Ymin, Xmin, Ymin)
 ee.Initialize()
 print(region)
-dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).map(mask_l8_sr).select(RGB)
+# dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).map(mask_l8_sr).select(RGB)
+dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB)
 image = dataset.reduce('median')
-PERCENTILE_SCALE = 100  # Resolution in meters to compute the percentile at
 percentiles = image.reduceRegion(ee.Reducer.percentile([0, 100], ['min', 'max']),
                                  geom, PERCENTILE_SCALE).getInfo()
 # Extracting the results is annoying because EE prepends the channel name
@@ -90,36 +105,41 @@ reduction = image.visualize(bands=NEWRGB,
                             gamma=1)
 
 path = reduction.getDownloadUrl({
-    'scale': 30,
+    'scale': SCALE,
     'crs': 'EPSG:4326',
-    'region': region
+    'maxPixels': 1e12,
+    'region': region,
+    'bestEffort': True
 })
 print(path)
 file = re.search("docid=.*&", path).group()[:-1][6:]
 print(file)
-urllib.request.urlretrieve(path, file + ".zip")
+urllib.request.urlretrieve(path, outdir + "/" + file + ".zip")
 
-with zipfile.ZipFile(file + ".zip", 'r') as zip_ref:
+with zipfile.ZipFile(outdir + "/" + file + ".zip", 'r') as zip_ref:
     zip_ref.extractall(outdir)
 
 for f in glob.glob(outdir + "/*.tfw"):
     os.remove(f)
-os.remove(file + ".zip")
+os.remove(outdir + "/" + file + ".zip")
 
 red    = Image.open(outdir + '/' + file + '.vis-red.tif')
 green  = Image.open(outdir + '/' + file + '.vis-green.tif')
 blue   = Image.open(outdir + '/' + file + '.vis-blue.tif')
 
-for f in glob.glob(outdir + "/*.tif"):
-    os.remove(f)
 
 rgb = Image.merge("RGB",(red,green,blue))
-rgb.save(outdir + "/" + DEM + '.tif')
+rgb.save(outdir + "/rgb" + DEM + '.tif')
 rgb.save(outdir + "/" + DEM + '.jpg')
 
-os.system("gdal2xyz.py -band 1 -csv " + outdir + "/" + DEM + ".dem " + outdir + "/" + DEM + ".csv")
+os.system("gdal2xyz.py -band 1 -csv " + outdir + "/" + DEM + ".tif " + outdir + "/" + DEM + ".csv")
 
-os.system("gdal_translate -of GTiff " + outdir + "/" + DEM + ".dem " + outdir + "/" + DEM + ".tif")
+os.system("gdal_translate -of GTiff " + outdir + "/" + DEM + ".tif " + outdir + "/1" + DEM + ".tif")
 
 for f in glob.glob(outdir + "/*.xml"):
     os.remove(f)
+
+os.system("cp " + tempdir + "/" + DEM + ".tif " +  " threejs-dem-visualizer-master/src/textures/agri-small-dem.tif")
+os.system("cp " + tempdir + "/" + DEM + ".jpg" + " threejs-dem-visualizer-master/src/textures/agri-small-autumn.jpg")
+os.system('rm -rf ' + tempdir)
+os.system("yarn --cwd threejs-dem-visualizer-master dev")
