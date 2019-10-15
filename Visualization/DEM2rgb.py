@@ -4,7 +4,6 @@
     and gdal_translate function.
 """
 import os, sys
-
 DEM = sys.argv[1]
 tempdir = "tempdir"
 os.system("mkdir " + tempdir)
@@ -51,6 +50,7 @@ with rasterio.open(outdir + "/" + DEM + ".tif") as dataset:
         geom = rasterio.warp.transform_geom(
             dataset.crs, 'EPSG:4326', geom, precision=6)
         # Print GeoJSON shapes to stdout.
+        print(geom)
 
 Xmin = geom['coordinates'][0][0][0]
 Xmax = geom['coordinates'][0][0][0]
@@ -85,7 +85,7 @@ print(region)
 dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB)
 image = dataset.reduce('median')
 percentiles = image.reduceRegion(ee.Reducer.percentile([0, 100], ['min', 'max']),
-                                 geom, PERCENTILE_SCALE).getInfo()
+                                 geom, PERCENTILE_SCALE, bestEffort=True).getInfo()
 # Extracting the results is annoying because EE prepends the channel name
 minVal = [val for key, val in percentiles.items() if 'min' in key]
 # splitVal = next(val for key, val in percentiles.items() if 'split' in key)
@@ -107,7 +107,7 @@ reduction = image.visualize(bands=NEWRGB,
 path = reduction.getDownloadUrl({
     'scale': SCALE,
     'crs': 'EPSG:4326',
-    'maxPixels': 1e12,
+    'maxPixels': 1e20,
     'region': region,
     'bestEffort': True
 })
