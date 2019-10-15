@@ -1,5 +1,5 @@
 """
-    multiplies elevations for DEM file.
+    resize DEM file.
 """
 import sys, os, csv
 from PIL import Image
