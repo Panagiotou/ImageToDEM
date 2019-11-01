@@ -17,9 +17,9 @@ if(len(sys.argv) > 3): scale = int(sys.argv[3])
 if(len(sys.argv) > 4): print("Too many arguments!")
 
 if(jpg):
-    os.system("cp " + dem + " threejs-dem-visualizer-master/src/textures/agri-small-dem.tif")
-    os.system("cp " + jpg + " threejs-dem-visualizer-master/src/textures/agri-small-autumn.jpg")
-    os.system("yarn --cwd threejs-dem-visualizer-master dev")
+    os.system("cp " + dem + " ../Visualization/threejs-dem-visualizer-master/src/textures/agri-small-dem.tif")
+    os.system("cp " + jpg + " ../Visualization/threejs-dem-visualizer-master/src/textures/agri-small-autumn.jpg")
+    os.system("yarn --cwd ../Visualization/threejs-dem-visualizer-master dev")
 else:
     if(scale):
         os.system("python3 DEM2rgb.py " + dem + " " + str(scale))

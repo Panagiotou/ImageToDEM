@@ -29,3 +29,9 @@ Visualization/threejs-dem-visualizer-master/src/textures/
 
 Dataset/Image
 Dataset/DEM
+Dataset/DEM_255
+Dataset/*.npz
+
+Model/*.jpg
+Model/*.png
+Model/*.h5
