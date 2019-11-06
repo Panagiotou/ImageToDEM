@@ -61,9 +61,12 @@ for i in range(allfiles):
         number_files = len(li)
         cc = "python3 reSplit.py " + "preSplitDEM/" + filename + " " + str(DATA_SIZE) + " " + str(SCALE) + " " + str(number_files)
         os.system(cc)
-        print(cc)
-        li = os.listdir('DEM_255/') # dir is your directory path
-        number_files = len(li)
-        print()
-        print()
-        print("Dataset Files Produced: " + str(number_files))
+
+os.system("python3 -W ignore TrainingArrays.py")
+print("Created Dataset.npz it contains " + str(number_files) + " pairs of Images-DEM.")
+print(cc)
+li = os.listdir('DEM_255/') # dir is your directory path
+number_files = len(li)
+print()
+print()
+print("Done dataset Files Produced: " + str(number_files))

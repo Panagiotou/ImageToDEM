@@ -92,7 +92,8 @@ def mask_l8_sr(image):
 region = '[[{}, {}], [{}, {}], [{}, {}], [{}, {}]]'.format(Xmin, Ymax, Xmax, Ymax, Xmax, Ymin, Xmin, Ymin)
 ee.Initialize()
 # dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).map(mask_l8_sr).select(RGB)
-dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB)
+# dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB)
+dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB).filter(ee.Filter.calendarRange(2018,2019,'year')).filter(ee.Filter.calendarRange(7,7,'month'));
 image = dataset.reduce('median')
 percentiles = image.reduceRegion(ee.Reducer.percentile([0, 100], ['min', 'max']),
                                  geom, PERCENTILE_SCALE, bestEffort=True).getInfo()

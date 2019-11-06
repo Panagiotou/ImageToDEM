@@ -12,9 +12,6 @@ from keras.preprocessing.image import load_img
 from numpy import savez_compressed
 import rasterio
 
-
-
-
 # load all images in a directory into memory
 def load_out_images(path, size=(SIZE,SIZE)):
 	tar_list = list()

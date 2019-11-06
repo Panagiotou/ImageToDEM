@@ -113,23 +113,7 @@ def load_out_images(path, size=(SIZE,SIZE)):
 	return asarray(tar_list)
 
 
-# ds = gdal.Open(dem)
-# band = ds.GetRasterBand(1)
-# xsize = band.XSize
-# ysize = band.YSize
-# if(lastk):
-#     k = lastk
-# else:
-#     k = 0
-# for i in range(0, xsize, tile_size_x):
-#     for j in range(0, ysize, tile_size_y):
-#         com_string = "gdal_translate -of GTIFF -epo -srcwin " + str(i)+ ", " + str(j) + ", " + str(tile_size_x) + ", " + str(tile_size_y) + " " + str(dem) + " " + str(out_path) + str(output_filename) + str(k) + ".tif"
-#         out = os.system(com_string)
-#         if(out == 0):
-#             ret = removeZeroTilesRGB(str(out_path) + str(output_filename) + str(k) + ".tif")
-#             if(not ret): k += 1
-
-for l in range(lastk, k+1):
+for l in range(lastk, k):
     jpg = "gdal_translate Image/tif/tile_" + str(l) + ".tif" + " Image/jpg/tile_" + str(l) + ".jpg"
     os.system(jpg)
 print("Input RGB successfully split into " + str(k-lastk) + " RGB files of size " + str(tile_size_x) + "x" + str(tile_size_x))
@@ -150,6 +134,8 @@ for i in range(number_files):
 	filename = 'tile_' + str(i)
 	os.system("gdal_translate -scale " + str(Tmin) + " " + str(Tmax) + " 0 255 DEM/" + filename + ".tif DEM_255/" +filename + "_255.tif")
 
-os.system("python3 TrainingArrays.py")
-
-print("Created Dataset.npz it contains " + str(number_files) + " pairs of Images-DEM.")
+li = os.listdir("DEM/") # dir is your directory path
+number_files = len(li)
+if(number_files % 100 == 0 or number_files < 5):
+    os.system("python3 -W ignore TrainingArrays.py")
+    print("Created Dataset.npz it contains " + str(number_files) + " pairs of Images-DEM.")
