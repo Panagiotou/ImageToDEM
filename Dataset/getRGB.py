@@ -1,6 +1,19 @@
 import os, sys, gdal
 from os import listdir
 from os.path import isfile, join
+import ee
+import time
+import requests
+import rasterio
+import rasterio.features
+import rasterio.warp
+import numpy as np
+from requests.auth import HTTPBasicAuth
+import re
+import urllib
+import zipfile
+import glob, os
+from PIL import Image
 
 dem = None
 scale = None
@@ -16,6 +29,7 @@ dem = sys.argv[1]
 """
 import os, sys
 DEMorig = sys.argv[1]
+preSplitImages = re.search(r'/(.*?)\.', DEMorig).group(1)
 tempdir = "tempdir"
 os.system("mkdir " + tempdir)
 if(os.path.isfile(tempdir + "/" + "temp.tif")):
@@ -33,19 +47,7 @@ if(len(sys.argv) > 2):
     SCALE = int(sys.argv[2])
     PERCENTILE_SCALE = int(sys.argv[2])
 
-import ee
-import time
-import requests
-import rasterio
-import rasterio.features
-import rasterio.warp
-import numpy as np
-from requests.auth import HTTPBasicAuth
-import re
-import urllib
-import zipfile
-import glob, os
-from PIL import Image
+
 
 with rasterio.open(tempdir + "/" + DEM + ".tif") as dataset:
 
@@ -133,8 +135,13 @@ im = Image.open(dem)
 width, height = im.size
 rgb = Image.merge("RGB",(red,green,blue))
 rgb = rgb.resize((int(width), int(height)),Image.ANTIALIAS)
-rgb.save(DEMorig.split(".tif")[0] + 'rgb.tif')
-rgb.save(DEMorig.split(".tif")[0] + 'rgb.jpg')
+
+out_path1 = 'preSplitImages/'
+os.system("mkdir " + out_path1)
+
+
+rgb.save(out_path1 + preSplitImages + 'rgb.tif')
+rgb.save(out_path1 + preSplitImages + 'rgb.jpg')
 
 for f in glob.glob(outdir + "/*.xml"):
     os.remove(f)

@@ -5,7 +5,7 @@ Inputs:
     * Input satellite image
 """
 # example of loading a pix2pix model and using it for image to image translation
-from tensorflow.keras.models import load_model
+from tensorflow.compat.v1.keras.models import load_model
 from numpy import load
 from numpy import vstack
 from matplotlib import pyplot
@@ -15,6 +15,7 @@ from tensorflow.keras.preprocessing.image import load_img
 from matplotlib.colors import NoNorm
 import sys, os
 import rasterio
+import traceback
 
 
 model = None
@@ -72,7 +73,6 @@ def saveDEM(temp, arr, name):
     with rasterio.open(outname, 'r+') as ds:
     	ds.write(arr.reshape((1,SIZE,SIZE)))
 
-# load model
 testmodel = load_model(model)
 SIZE = 256
 size=(SIZE,SIZE)

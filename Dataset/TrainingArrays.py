@@ -24,12 +24,6 @@ def load_out_images(path, size=(SIZE,SIZE)):
 	number_files = len(li)
 	for i in range(number_files):
 		filename = 'tile_' + str(i) + '_255.tif'
-		# load and resize the image
-		pixels = load_img(path + filename, target_size=size)
-		# convert to numpy array
-		pixels = img_to_array(pixels)
-		# split into satellite and map
-		# tar_list.append(pixels)
 		with rasterio.open(path + filename, 'r') as ds:
 			arr = np.array(ds.read())  # read all raster values
 			arr = arr.reshape((SIZE,SIZE,1))
