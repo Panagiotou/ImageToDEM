@@ -119,8 +119,6 @@ for ai in range(allfiles):
     tile_size_y = tile_size_x
     scale = int(SCALE)
     lastk = number_files
-    print(ai)
-    print(lastk)
 
     ds = gdal.Open(dem)
     band = ds.GetRasterBand(1)
@@ -178,7 +176,7 @@ for ai in range(allfiles):
 
     # dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).map(mask_l8_sr).select(RGB)
     # dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB)
-    dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB).filter(ee.Filter.calendarRange(2018,2019,'year')).filter(ee.Filter.calendarRange(7,7,'month'));
+    dataset = ee.ImageCollection(SATELLITE_SR).filterBounds(geom).select(RGB).filter(ee.Filter.calendarRange(2018,2019,'year')).filter(ee.Filter.calendarRange(6,8,'month'));
 
     image = dataset.reduce('median')
     percentiles = image.reduceRegion(ee.Reducer.percentile([0, 100], ['min', 'max']),
