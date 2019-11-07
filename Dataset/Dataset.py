@@ -119,6 +119,8 @@ for ai in range(allfiles):
     tile_size_y = tile_size_x
     scale = int(SCALE)
     lastk = number_files
+    print(ai)
+    print(lastk)
 
     ds = gdal.Open(dem)
     band = ds.GetRasterBand(1)
@@ -203,8 +205,14 @@ for ai in range(allfiles):
     file = re.search("docid=.*&", path).group()[:-1][6:]
     urllib.request.urlretrieve(path, tempdir + "/" + file + ".zip")
 
-    with zipfile.ZipFile(tempdir + "/" + file + ".zip", 'r') as zip_ref:
-        zip_ref.extractall(tempdir)
+    try:
+      with zipfile.ZipFile(tempdir + "/" + file + ".zip", 'r') as zip_ref:
+          zip_ref.extractall(tempdir)
+    except:
+      print("Bad Zip file, continuing...")
+      os.system('rm -rf ' + tempdir)
+      continue
+
 
 
     red    = Image.open(tempdir + '/' + file + '.vis-red.tif')
@@ -246,7 +254,7 @@ for ai in range(allfiles):
     print()
     li = os.listdir('preSplitDEM/') # dir is your directory path
     allfiles = len(li)
-    print("Input DEM number " + str(int(lastk/4)) + "/" + str(allfiles) + " successfully split into " + str(k-lastk) + " DEMs of size " + str(tile_size_x) + "x" + str(tile_size_x))
+    print("Input DEM number " + str(ai) + "/" + str(allfiles) + " successfully split into " + str(k-lastk) + " DEMs of size " + str(tile_size_x) + "x" + str(tile_size_x))
 
     for l in range(lastk, k):
         jpg = "gdal_translate Image/tif/tile_" + str(l) + ".tif" + " Image/jpg/tile_" + str(l) + ".jpg"
