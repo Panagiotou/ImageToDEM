@@ -215,7 +215,9 @@ def Generator(input_channels=INPUT_CHANNELS, output_channels=OUTPUT_CHANNELS):
 
     return tf.keras.Model(inputs=inputs, outputs=x)
 
-def Discriminator():
+PATCH_SIZE = 4
+
+def Discriminator(patch_size=PATCH_SIZE):
     '''Discriminator of cGAN'''
     initializer = tf.random_normal_initializer(0, std_dis)
 
@@ -224,9 +226,9 @@ def Discriminator():
 
     x = tf.keras.layers.concatenate([inp, tar]) # (bs, 256, 256, 4)
 
-    down1 = downsample(64, 4, batchnorm=False)(x) # (bs, 128, 128, 64)
-    down2 = downsample(128, 4)(down1) # (bs, 64, 64, 128)
-    down3 = downsample(256, 4)(down2) # (bs, 32, 32, 256)
+    down1 = downsample(64, patch_size, batchnorm=False)(x) # (bs, 128, 128, 64)
+    down2 = downsample(128, patch_size)(down1) # (bs, 64, 64, 128)
+    down3 = downsample(256, patch_size)(down2) # (bs, 32, 32, 256)
 
     zero_pad1 = tf.keras.layers.ZeroPadding2D()(down3) # (bs, 34, 34, 256)
     conv = tf.keras.layers.Conv2D(
@@ -244,7 +246,7 @@ def Discriminator():
     return tf.keras.Model(inputs=[inp, tar], outputs=last)
 
 generator = Generator(INPUT_CHANNELS, OUTPUT_CHANNELS)
-discriminator = Discriminator()
+discriminator = Discriminator(PATCH_SIZE)
 
 LAMBDA = 400
 
