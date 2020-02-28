@@ -22,6 +22,7 @@
     "author": "zhunor <ozerorhun@gmail.com>",
     "license": "MIT",
     "dependencies": {
+        "ccapture.js": "^1.1.0",
         "geotiff": "^1.0.0-beta.6",
         "orbit-controls-es6": "2.0.0",
         "three": "0.99.0"

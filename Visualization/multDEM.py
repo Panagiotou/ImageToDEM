@@ -1,5 +1,7 @@
 """
-    multiplies elevations for DEM file.
+    Multiplies elevations of DEM file by mul.
+    Example 'python3 multDEM.py sample/temp.tif 5'
+    Output should be sample/temp_mul.tif
 """
 import sys, os, csv
 
@@ -22,7 +24,7 @@ with open(filename, 'r') as inp, open(newfilename, 'w') as out:
         row[0] = " ".join(split)
         writer.writerow(row)
 
-os.system("gdal_translate -of GTiff " + newfilename + " " + dem[:-4] + '-mul.tif')
-os.system("gdal_edit.py -a_srs " + CRS + " " + dem[:-4] + '-mul.tif')
+os.system("gdal_translate -of GTiff " + newfilename + " " + dem[:-4] + '_mul.tif')
+# os.system("gdal_edit.py -a_srs " + CRS + " " + dem[:-4] + '_mul.tif')
 os.remove(filename)
 os.remove(newfilename)
