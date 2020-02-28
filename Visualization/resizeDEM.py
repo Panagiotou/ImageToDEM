@@ -1,5 +1,7 @@
 """
-    resize DEM file.
+    Resize DEM width, height by 1/r.
+    Example 'python3 resizeDEM.py sample/temp.tif 5'
+    Output should be sample/temp_re.tif
 """
 import sys, os, csv
 from PIL import Image
@@ -15,4 +17,4 @@ width, height = im.size
 newW = int(width/r)
 newH = int(height/r)
 print(newW, newH)
-os.system("gdalwarp -of GTiff -s_srs " + CRS + " -ts " + str(newW) + " " + str(newH) + " " + dem + " " + dem[:-4] + "-re.tif")
+os.system("gdalwarp -of GTiff -ts " + str(newW) + " " + str(newH) + " " + dem + " " + dem[:-4] + "_re.tif")

@@ -1,13 +1,21 @@
+"""
+    Split DEM into smaller tiles of size (tile_size_x, tile_size_y)
+    Example 'python3 splitRaster.py'
+    Output should be in the 'out_path' directory containing all the tiles
+"""
 import os, gdal
 
 in_path = 'sample/'
-input_filename = 'samos.dem'
+input_filename = 'temp.tif'
 
 out_path = 'sample/split/'
 output_filename = 'tile_'
 
-tile_size_x = 200
-tile_size_y = 400
+if(not os.path.isdir(out_path)):
+    os.system("mkdir " + out_path)
+
+tile_size_x = 100
+tile_size_y = 100
 
 ds = gdal.Open(in_path + input_filename)
 band = ds.GetRasterBand(1)

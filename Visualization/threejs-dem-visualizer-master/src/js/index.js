@@ -1,4 +1,5 @@
 import * as THREE from "three";
+// import * as CCapture from "../js/capt/CCapture"
 // TODO: OrbitControls import three.js on its own, so the webpack bundle includes three.js twice!
 import OrbitControls from "orbit-controls-es6";
 import * as Detector from "../js/vendor/Detector";
@@ -12,6 +13,16 @@ import * as mountainImage from "../textures/agri-small-autumn.jpg";
 import * as GeoTIFF from "geotiff";
 
 require("../sass/home.sass");
+
+// const width  = 600;
+// const height = 600;
+// var canvas1 = document.getElementById("canvas-container");
+// const renderer1 = new THREE.WebGLRenderer({canvas: canvas1, antialias: true});
+// renderer1.setSize( width, height );
+// const capturer = new CCapture( { format: 'png' } );
+// capturer.start();
+// capturer.stop();
+// capturer.save();
 
 class Application {
   constructor(opts = {}) {
@@ -73,6 +84,8 @@ class Application {
     return div;
   }
 
+
+
   setupRenderer() {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0xd3d3d3); // it's a dark gray
@@ -82,20 +95,24 @@ class Application {
     this.container.appendChild(this.renderer.domElement);
   }
 
+
+
+
   setupCamera() {
     const fov = 75;
     const aspect = this.width / this.height;
     const near = 0.1;
     const far = 10000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    this.camera.position.set(500, 500, 500);
+    this.camera.position.set(200, 120, -50);
     this.camera.lookAt(this.scene.position);
+    // this.camera.translateZ( +150 );
   }
 
   setupControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enabled = true;
-    this.controls.maxDistance = 1500;
+    this.controls.maxDistance = 2000;
     this.controls.minDistance = 0;
     this.controls.autoRotate = true;
   }
