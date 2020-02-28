@@ -8,7 +8,7 @@ The motivation for this project was given by the basic ingredients necessary to 
 
 | Standard Approach | Our Approach |
 |---|---|
-|![before](./Media/3d_vis_before_im2dem.png)|![after](./Media/3d_vis_before_im2dem.png)|
+|![before](./Media/3d_vis_before_im2dem.png)|![after](./Media/3d_vis_after_im2dem.png)|
 
 The only feasible solution to creating such a system is Artificial Intelligence and Deep Learning. We decided to model G as the Generator of a Conditional Generative Adversarial Network (cGAN).
 
