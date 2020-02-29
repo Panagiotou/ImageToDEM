@@ -20,11 +20,17 @@ Inspired by <span style="color:green">Isola et al., 2017</span>, we used a U-Net
 |---|---|
 |![unet](./Media/unet_for_im2dem.png)| ![patchgan](./Media/patchgan_for_im2dem.png)
 
+## Dataset Construction
+
 To train the cGAN, we went ahead and created our own dataset. We used the ALOS World 3D database to get the DEMs that would serve as the groundtruth and utilized the Google Earth Engine API to couple them with the RGB satellite image (Sentinel-2)
 
 ![dataset](./Media/dataset_im2dem.png)
 
-Our inplementation is in TensorFlow2.0. Our network was trained for 300 epochs, using the Adam optimizer (learning rate 2e-4, beta_1 0.5 and the rest is default) with the loss suggested by <span style="color:green">Isola et al., 2017</span>.
+Our python script that downloads an RGB satellite image corresponding to a DEM (or GeoJSON geometry) can be found [here](./Visualization/DEM2rgb.py).  
+
+## Training-Results
+
+Our implementation is in TensorFlow2.0. Our network was trained for 300 epochs, using the Adam optimizer (learning rate 2e-4, beta_1 0.5 and the rest is default) with the loss suggested by <span style="color:green">Isola et al., 2017</span>.
 
 The network is able to approximate the test set better and better through time:
 
@@ -32,17 +38,28 @@ The network is able to approximate the test set better and better through time:
 
 Using [this](https://github.com/zhunor/threejs-dem-visualizer) visualizer, we were able to render out results in 3D:
 
-![vis_3d](./Media/animation_3d_n1_im2dem.gif)
+| Input Image | Predicted Image | Visualization
+|---|---|------|
+|![before](./Media/animation_3d_n1_im.jpg)|![after](./Media/animation_3d_n1_dem.jpg)| ![vis_3d](./Media/animation_3d_n1_im2dem.gif)
 
-![vis_3d](./Media/animation_3d_n2_im2dem.gif)
+
+| Input Image | Predicted Image | Visualization
+|---|---|---|
+|![before](./Media/animation_3d_n2_im.jpg)|![after](./Media/animation_3d_n2_dem.jpg)| ![vis_3d](./Media/animation_3d_n2_im2dem.gif)
+
+## Inverse problem
 
 Moreover, we used the same network to solve the inverse problem, i.e. predicting the RGB image given a DEM. We received promising results:
 
 ![inverse](./Media/inverse_im2dem.png)
 
-This system can be readily used, in collaboration with a simple script producing DEMs based on [Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise) to produce artificial terrains, fully generated without any human supervision, with application in virtual reality environments, among others. Here is an example of such a landscape:
+This system can be readily used, in collaboration with a simple [script](./RandomDEM/TerrainGen.py) producing DEMs based on [Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise) to produce artificial terrains, fully generated without any human supervision, with application in virtual reality environments, among others. Here is an example of such a landscape:
 
-![virtual](./Media/virtual_im2dem.gif)
+| Input Image | Predicted Image | Visualization
+|---|---|---|
+|![before](./Media/virtual_dem.jpg) |![after](./Media/virtual_im.jpg)| ![virtual](./Media/virtual_im2dem.gif)
+
+
 
 ---
 
