@@ -1,8 +1,6 @@
-# ImageToDEM
+# ImageToDEM 
 
-## Predicting Surface Elevation from a single RGB satellite image
-
-This work was presented at the 2nd workshop of RSSA, Geological Society of Greece: [[pdf](./Presentation/rssa2020-presentation.pdf)] [[odp](./Presentation/rssa2020-presentation.odp)]. We expect to release a paper on our work soon. If you find our work useful, a temporary citation could be: E. Panagiotou, G. Chochlakis, E. Charou. <i>Predicting Surface Elevation from a single RGB satellite image using cGANs</i>, in <i>Second Workshop on RSSA, Geological Society of Greece</i>, 2020.
+Code for our [paper](https://www.mdpi.com/2072-4292/12/12/2002) "_Generating Elevation Surface from a Single RGB Remotely Sensed Image Using Deep Learning_", published in Remote Sensing, 2020, 12(12): 2002.
 
 The motivation for this project was given by the basic ingredients necessary to produce a 3D visualization of a satellite image. A Digital Elevation Model (DEM) is required to represent height, along with the satellite image itself to produce the coloration. We, instead, decided to model a system, let's call it G, to predict the elevation given a single, RGB, satellite image.
 
@@ -71,6 +69,24 @@ This system can be readily used, in collaboration with a simple [script](./Rando
 
 ---
 
-## References
+## Relevant Presentations
 
-* Isola, Phillip and Zhu, Jun-Yan and Zhou, Tinghui and Efros, Alexei A. Image-To-Image Translation With Conditional Adversarial Networks, in CVPR, 2017.
+Preliminary results were presented in the 2nd workshop of RSSA, Geological Society of Greece: [pdf](./Presentation/rssa2020-presentation.pdf) [odp](./Presentation/rssa2020-presentation.odp). More on the event [here](http://etde.space.noa.gr/?p=466).
+
+## Citation
+
+If you find this work helpful in your research, cite:
+```
+@article{panagiotou2020generating,
+  title={Generating {E}levation {S}urface from a {S}ingle {RGB} {R}emotely {S}ensed {I}mage {U}sing {D}eep {L}earning},
+  author={Panagiotou, Emmanouil and Chochlakis, Georgios and Grammatikopoulos, Lazaros and Charou, Eleni},
+  journal={Remote Sensing},
+  publisher={Multidisciplinary Digital Publishing Institute},
+  volume={12},
+  number={12},
+  pages={2002},
+  year={2020},
+  month={June},
+  DOI={https://doi.org/10.3390/rs12122002}
+}
+```
